@@ -24,6 +24,10 @@ public class Point {
         return this.data;
     }
 
+    public void baraban(int i){
+        i++;
+    }
+
 
 
 
