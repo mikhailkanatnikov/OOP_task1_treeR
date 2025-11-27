@@ -11,8 +11,8 @@ public class Box {
     private int maxY;
     private List<Point> points;
     private List<Box> boxes;
-    private int maxSize; //вместимость
-    private boolean isParent; //хранит точки или коробки
+    private final int maxSize; //вместимость
+    private final boolean isParent; //хранит точки или коробки
 
     public Box(int size, boolean isparent){
         if(size<=0){throw new IllegalArgumentException("Размер коробки должен быть больше нуля!");}
@@ -61,11 +61,11 @@ public class Box {
         return this.points;
     }
 
-    ///////////////////////// методы ///////////////////////////////
+    /////////////////////////////////////////////////////////// методы ///////////////////////////////
 
 
     public boolean isBoxEmpty(){
-        if (this.isParent==true){
+        if (this.isParent){
             if (boxes==null){return true;}
             if (boxes.isEmpty()){return true;}
             return false;
@@ -80,7 +80,7 @@ public class Box {
 
 
     public int getCurrentSize() {
-        if (this.isParent == true) {
+        if (this.isParent) {
             if (boxes == null) return 0;
             return boxes.size();
 
@@ -129,6 +129,11 @@ public class Box {
             makeBoxBigger(box.getMaxX(), box.getMaxY());
             }
         }
+    }
+
+    public boolean isPointContains(Point point){
+        return (point.getX() >= minX && point.getX() <= maxX
+                && point.getY() >= minY && point.getY() <= maxY);
     }
 
 
