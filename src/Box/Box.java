@@ -78,6 +78,17 @@ public class Box {
         }
     }
 
+    public int getCurrentSize() {
+        if (this.isParent == true) {
+            if (boxes == null) return 0;
+            return boxes.size();
+
+        } else {
+            if (points == null) return 0;
+            return points.size();
+        }
+    }
+
 
     public void makeBoxBigger(int x, int y){
         if (points.isEmpty()){
