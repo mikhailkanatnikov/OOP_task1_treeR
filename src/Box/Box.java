@@ -67,16 +67,17 @@ public class Box {
     public boolean isBoxEmpty(){
         if (this.isParent==true){
             if (boxes==null){return true;}
-            if (boxes.size()==0){return true;}
+            if (boxes.isEmpty()){return true;}
             return false;
             }
 
         else {
             if (points==null){return true;}
-            if (points.size() == 0){return true;}
+            if (points.isEmpty()){return true;}
             return false;
         }
     }
+
 
     public int getCurrentSize() {
         if (this.isParent == true) {
@@ -91,7 +92,7 @@ public class Box {
 
 
     public void makeBoxBigger(int x, int y){
-        if (points.isEmpty()){
+        if (isBoxEmpty()){
             minX = x;
             maxX = x;
             minY = y;
@@ -106,16 +107,27 @@ public class Box {
 
     public void addPoint(Point point){
         if (!isParent){
+            if (points==null) points = new ArrayList<>();
             points.add(point);
-            makeBoxBigger(point.getX(), point.getY());
+
+            if (point.getX()<minX || point.getX()>maxX
+                    || point.getY()<minY || point.getY()>maxY){
+
+                    makeBoxBigger(point.getX(), point.getY()); }
         }
     }
 
     public void addBox(Box box){ //добавить детскую в родительскую
         if (isParent){
+            if(boxes==null)boxes = new ArrayList<>();
             boxes.add(box);
+
+            if(box.getMinX() < minX || box.getMaxX() > maxX
+                || box.getMinY() < minY || box.getMaxY() > maxY){
+
             makeBoxBigger(box.getMinX(), box.getMinY());
             makeBoxBigger(box.getMaxX(), box.getMaxY());
+            }
         }
     }
 
