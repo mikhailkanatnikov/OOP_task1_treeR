@@ -23,7 +23,7 @@ public class Box {
         if (isparent){ //если хранит коробки
             this.boxes = new ArrayList<Box>();
             this.points = null;
-        } else {
+        } else { //хранит точки
             this.points = new ArrayList<Point>();
             this.boxes = null;
         }
@@ -61,12 +61,24 @@ public class Box {
         return this.points;
     }
 
-    // методы //
-    //нужно дописать
+    ///////////////////////// методы ///////////////////////////////
 
-    public boolean isBoxEmpty(Box box){
-        if (box)
+
+    public boolean isBoxEmpty(){
+        if (this.isParent==true){
+            if (boxes==null){return true;}
+            if (boxes.size()==0){return true;}
+            return false;
+            }
+
+        else {
+            if (points==null){return true;}
+            if (points.size() == 0){return true;}
+            return false;
+        }
     }
+
+
     public void makeBoxBigger(int x, int y){
         if (points.isEmpty()){
             minX = x;
