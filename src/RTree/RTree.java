@@ -1,54 +1,108 @@
 package RTree;
 import Box.Box;
 import Point.Point;
-
 import java.util.List;
 
 public class RTree {
     private Box rootBox;
-    private final int maxSize;
+    private final int maxBoxSize;
     private int pointCount;
 
     public RTree(int size){
         if (size<0){throw new IllegalArgumentException("Размер должен быть больше нуля!!");}
-        this.maxSize = size;
+        this.maxBoxSize = size;
     }
 
     public Box getRootBox() {
         return this.rootBox;
     }
 
-    public int getMaxSize(){
-        return this.maxSize;
+    public int getMaxBoxSize(){
+        return this.maxBoxSize;
     }
 
     public int getPointCount(){
         return this.pointCount;
     }
 
-                    // методы // (нужно дописать)
+      ///////////////////////// методы ///////////////////////////
 
-    public boolean isTreeEmpty(RTree tree){
-        if (tree.getRootBox())
+    public boolean isTreeEmpty(){
+        if(rootBox==null)return true;
+        return this.getRootBox().isBoxEmpty();
     }
 
-    private Box findBoxForPoint(){
-        return rootBox;
+    private Box findBoxForPoint(Box currentBox, Point point){
+
+        if (!currentBox.isParent()){return currentBox;}
+
+        List<Box> children = currentBox.getBoxes();
+
+        for(Box child: children){
+            if (child.isPointContains(point)){
+                return findBoxForPoint(child,point);
+            }
+        }
+        //если ничего не подошло, кидаем в первую
+        return findBoxForPoint(children.getFirst(),point);
+
     }
 
-   /* private void splitBox(Box box){
-        List<Point> points = box.getPoints();
 
-        int half = points.size()/2;
-        Box box1 = new Box(half, false);
-        Box box2 = new Box(half, false);
+    public void splitBox(Box box){
 
-        for (int i = 0; i<half; i++ ){
-            box1.addPoint(box.); //дописать
+       Box box1 = new Box(maxBoxSize, box.isParent());
+       Box box2 = new Box(maxBoxSize, box.isParent());
+
+       //проверка на корень ВОТ ЭТО ОСТАЛОСЬ!!!!!
+        if(box.getParent()==null){
+
         }
 
-        for (int i = half; i<)
+       if(!box.isParent()) { //хранит точки
 
-    } */
+           List<Point> points = box.getPoints();
+           int half = points.size() / 2;
+
+           for (int i = 0; i < half; i++) {
+               box1.addPoint(points.get(i));
+           }
+
+           for (int i = half; i<points.size();i++){
+               box2.addPoint(points.get(i));
+           }
+
+       } else { // хранит коробки
+
+           List<Box> children = box.getBoxes();
+           int half = children.size()/2;
+
+           for (int i = 0; i<half; i++){
+               box1.addBox(children.get(i));
+           }
+
+           for (int i = half; i<children.size(); i++){
+               box2.addBox(children.get(i));
+           }
+       }
+
+    }
+
+
+
+    public void insert(Point point){
+        if(rootBox==null){rootBox = new Box(maxBoxSize,false);}
+
+        Box leaf = findBoxForPoint(rootBox, point);
+        leaf.addPoint(point);
+        pointCount++;
+
+        if (leaf.getCurrentSize()>maxBoxSize){
+            splitBox(leaf);
+        }
+    }
+
+
+
 
 }
