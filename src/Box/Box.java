@@ -13,12 +13,14 @@ public class Box {
     private List<Box> boxes;
     private final int maxSize; //вместимость
     private final boolean isParent; //хранит точки или коробки
+    private Box parent; //ее родитель
 
     public Box(int size, boolean isparent){
         if(size<=0){throw new IllegalArgumentException("Размер коробки должен быть больше нуля!");}
 
         this.maxSize = size;
         this.isParent = isparent;
+        this.parent = null;
 
         if (isparent){ //если хранит коробки
             this.boxes = new ArrayList<Box>();
@@ -59,6 +61,14 @@ public class Box {
 
     public List<Point> getPoints() {
         return this.points;
+    }
+
+    public Box getParent(){
+        return this.parent;
+    }
+
+    public void setParent(Box parent){
+        this.parent = parent;
     }
 
     /////////////////////////////////////////////////////////// методы ///////////////////////////////
@@ -105,6 +115,7 @@ public class Box {
         }
     }
 
+
     public void addPoint(Point point){
         if (!isParent){
             if (points==null) points = new ArrayList<>();
@@ -135,7 +146,6 @@ public class Box {
         return (point.getX() >= minX && point.getX() <= maxX
                 && point.getY() >= minY && point.getY() <= maxY);
     }
-
 
 
 }
