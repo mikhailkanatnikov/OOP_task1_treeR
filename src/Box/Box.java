@@ -132,6 +132,7 @@ public class Box {
         if (isParent){
             if(boxes==null)boxes = new ArrayList<>();
             boxes.add(box);
+            box.setParent(this);//люк я твой отец
 
             if(box.getMinX() < minX || box.getMaxX() > maxX
                 || box.getMinY() < minY || box.getMaxY() > maxY){
