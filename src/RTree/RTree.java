@@ -54,10 +54,6 @@ public class RTree {
        Box box1 = new Box(maxBoxSize, box.isParent());
        Box box2 = new Box(maxBoxSize, box.isParent());
 
-       //проверка на корень ВОТ ЭТО ОСТАЛОСЬ!!!!!
-        if(box.getParent()==null){
-
-        }
 
        if(!box.isParent()) { //хранит точки
 
@@ -86,6 +82,15 @@ public class RTree {
            }
        }
 
+        //проверка на корень
+        if(box.getParent()==null){
+
+            Box newRoot = new Box(maxBoxSize, true);
+            newRoot.addBox(box1);
+            newRoot.addBox(box2);
+            rootBox = newRoot;
+
+        }
     }
 
 
@@ -94,15 +99,22 @@ public class RTree {
         if(rootBox==null){rootBox = new Box(maxBoxSize,false);}
 
         Box leaf = findBoxForPoint(rootBox, point);
+
+        if (leaf.getCurrentSize()>=maxBoxSize){
+            splitBox(leaf);
+
+            leaf = findBoxForPoint(rootBox, point);
+        }
+
+
         leaf.addPoint(point);
         pointCount++;
 
-        if (leaf.getCurrentSize()>maxBoxSize){
-            splitBox(leaf);
+
         }
     }
 
 
 
 
-}
+
