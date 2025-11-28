@@ -24,4 +24,9 @@ public class Point {
         return this.data;
     }
 
+    public boolean isPointInArea(int minX, int maxX, int minY, int maxY){
+        return (this.x >= minX && this.x <= maxX
+                && this.y >= minY && this.y <= maxY);
+    }
+
 }
