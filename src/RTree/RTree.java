@@ -1,6 +1,8 @@
 package RTree;
 import Box.Box;
 import Point.Point;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class RTree {
@@ -106,12 +108,45 @@ public class RTree {
             leaf = findBoxForPoint(rootBox, point);
         }
 
-
         leaf.addPoint(point);
         pointCount++;
+        }
 
+
+    public void getAllPointsFromBox(Box box, List<Point>pointsFromBox){
+        if (box==null)return;
+
+        if(!box.isParent()){ //хранит только точки
+            pointsFromBox.addAll(box.getPoints());
+        }
+            else{
+                for (Box child: box.getBoxes()){
+                    getAllPointsFromBox(child,pointsFromBox);
+                }
 
         }
+    }
+
+    public void getAllPointsFromTree(List<Point>pointsFromTree){
+        if(rootBox==null){return;}
+        getAllPointsFromBox(rootBox,pointsFromTree);
+    }
+
+
+
+
+
+    public List<Point> searchAllPointsInArea(int minX, int maxX, int minY, int maxY){
+
+        List<Point> pointsInArea = new ArrayList<Point>();
+        if()
+
+
+
+        return pointsInArea;
+    }
+
+
     }
 
 
