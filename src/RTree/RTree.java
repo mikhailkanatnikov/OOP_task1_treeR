@@ -169,6 +169,52 @@ public class RTree {
         return pointsInArea;
     }
 
+    public void remove(Point target) {
+        if (rootBox == null) return;
+
+        Box leaf = findBoxForPoint(rootBox, target);
+        List<Point> points = leaf.getPoints();
+
+        for (int i = 0; i < points.size(); i++) {
+            Point p = points.get(i);
+            if (p.getX() == target.getX() && p.getY() == target.getY() &&
+                    p.getData().equals(target.getData())) {
+                points.remove(i);
+                pointCount--;
+                return;
+            }
+        }
+    }
+
+
+    public void printTree() {
+        if (rootBox == null) {
+            System.out.println("Дерево пустое");
+            return;
+        }
+
+
+        List<Box> stack = new ArrayList<>();
+        stack.add(rootBox);
+
+        while (!stack.isEmpty()) {
+            Box box = stack.remove(0);
+
+            if (box.isParent()) {
+                System.out.println("Родитель [" + box.getCurrentSize() + " детей]");
+                if (box.getBoxes() != null) {
+                    stack.addAll(0, box.getBoxes()); // добавляем детей в начало
+                }
+            } else {
+                System.out.println("Лист [" + box.getCurrentSize() + " точек]");
+                if (box.getPoints() != null) {
+                    for (Point p : box.getPoints()) {
+                        System.out.println("  (" + p.getX() + "," + p.getY() + ") - " + p.getData());
+                    }
+                }
+            }
+        }
+    }
 
 }
 
