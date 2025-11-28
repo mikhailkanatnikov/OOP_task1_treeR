@@ -45,6 +45,10 @@ public class RTree {
                 return findBoxForPoint(child,point);
             }
         }
+
+        if (children.isEmpty()) {
+            return currentBox;}
+
         //если ничего не подошло, кидаем в первую
         return findBoxForPoint(children.getFirst(),point);
 
@@ -92,7 +96,22 @@ public class RTree {
             newRoot.addBox(box2);
             rootBox = newRoot;
 
+        } else {
+            Box parent = box.getParent();
+            // УДАЛИТЬ старую коробку из родителя
+            parent.getBoxes().remove(box);
+
+
+            parent.addBox(box1);
+            parent.addBox(box2);
+
+            // не переполнился ли родитель
+            if (parent.getCurrentSize() > maxBoxSize) {
+                splitBox(parent); // рекурсивно разделить родителя
+            }
+
         }
+
     }
 
 
@@ -134,10 +153,6 @@ public class RTree {
 
 
 
-
-
-
-
     public List<Point> getAllPointsFromArea(int minX, int maxX, int minY, int maxY){
 
         List<Point> pointsInArea = new ArrayList<Point>();
@@ -155,7 +170,7 @@ public class RTree {
     }
 
 
-    }
+}
 
 
 
