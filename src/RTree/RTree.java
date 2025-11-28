@@ -136,12 +136,20 @@ public class RTree {
 
 
 
-    public List<Point> searchAllPointsInArea(int minX, int maxX, int minY, int maxY){
+
+
+    public List<Point> getAllPointsFromArea(int minX, int maxX, int minY, int maxY){
 
         List<Point> pointsInArea = new ArrayList<Point>();
-        if()
 
+        List<Point> allTreePoints = new ArrayList<Point>();
+        getAllPointsFromTree(allTreePoints);
 
+        for (Point point: allTreePoints){
+            if( point.isPointInArea(minX,maxX,minY,maxY) ){
+                pointsInArea.add(point);
+            }
+        }
 
         return pointsInArea;
     }
